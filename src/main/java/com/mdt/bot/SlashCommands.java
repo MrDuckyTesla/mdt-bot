@@ -8,8 +8,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 
 public class SlashCommands extends ListenerAdapter {
@@ -36,6 +38,11 @@ public class SlashCommands extends ListenerAdapter {
 			case "social":
 				socialHelper(event);
 				break;
+				
+			case "gamble":
+				gambleHelper(event);
+				break;
+				
 		}
 	}
 
@@ -60,6 +67,9 @@ public class SlashCommands extends ListenerAdapter {
 			case "divide":
 				event.reply(a + " / " + b + " = " + (a/b)).queue();
 				break;
+			case "random":
+				event.reply((Math.random()*(Math.max(a, b)-Math.min(a, b))+Math.min(a, b))+"").queue();
+				break;
 		}
 	}
 	
@@ -68,15 +78,14 @@ public class SlashCommands extends ListenerAdapter {
 		try {img = ImageIO.read(new File("input.png"));} 
 		catch (IOException e) {img = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);}
 		int[] rgba = new int[4]; String[] rgbaS = new String[] {"r", "g", "b", "a"};
-		for (int i = 0; i < 4; i++) {rgba[i] = event.getOption(rgbaS[i], 255, opt -> opt.getAsInt())%256;}
 		
 		switch (cmd) {
 		
 			case "pixel":
 				Graphics2D gph = img.createGraphics();
 				int x = event.getOption("x").getAsInt()%100, y = event.getOption("y").getAsInt()%101;
-				gph.setColor(new Color(rgba[0], rgba[1], rgba[2], rgba[3]));
-				gph.fillRect(x*10, y*10, 10, 10);
+				for (int i = 0; i < 4; i++) {rgba[i] = event.getOption(rgbaS[i], 255, opt -> opt.getAsInt())%256;}
+				gph.setColor(new Color(rgba[0], rgba[1], rgba[2], rgba[3])); gph.fillRect(x*10, y*10, 10, 10);
 				try {
 					ImageIO.write(img, "png", new File("input.png"));
 					event.replyFiles(FileUpload.fromData(new File("input.png"))).queue();
@@ -92,12 +101,37 @@ public class SlashCommands extends ListenerAdapter {
 	
 	private void socialHelper(SlashCommandInteractionEvent event) {
 		String cmd = event.getSubcommandName();
+		String text = event.getOption("text").getAsString();
 
 		switch (cmd) {
 		
 			case "say":
-				event.getChannel().sendMessage(event.getOption("text").getAsString()).queue();
+				event.getChannel().sendMessage(text).queue();
 				event.reply("Successfully sent message").setEphemeral(true).queue();
+				break;
+				
+			case "send":
+				event.reply(text).queue();
+				break;
+			
+			case "reply":
+				try {
+				event.getChannel().retrieveMessageById(event.getOption("message-id").getAsString()).queue(message -> {message.reply(text).queue();});
+				event.reply("Successfully sent reply").setEphemeral(true).queue();
+				} catch(Exception e) {event.reply("Could not sent reply").setEphemeral(true).queue();}
+				break;
+		}
+	}
+	
+	private void gambleHelper(SlashCommandInteractionEvent event) {
+		String cmd = event.getSubcommandName();
+
+		switch (cmd) {
+		
+			case "coin-toss":
+				break;
+			
+			case "roulette":
 				break;
 		}
 	}
