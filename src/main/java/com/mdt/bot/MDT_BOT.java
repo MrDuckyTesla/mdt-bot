@@ -55,7 +55,8 @@ public class MDT_BOT {
 	        			.addOption(OptionType.INTEGER, "r", "red value", false)
 	        			.addOption(OptionType.INTEGER, "g", "green value", false)
 	        			.addOption(OptionType.INTEGER, "b", "blue value", false)
-	        			.addOption(OptionType.INTEGER, "a", "alpha value", false)
+	        			.addOption(OptionType.INTEGER, "a", "alpha value", false),
+	        		new SubcommandData("show", "shows image")
 	        	),
 	        	Commands.slash("social", "text related commands")
 	        		.addSubcommands(
