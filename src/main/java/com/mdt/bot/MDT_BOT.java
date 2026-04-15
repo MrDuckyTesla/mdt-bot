@@ -14,7 +14,7 @@ public class MDT_BOT {
 	
     public static void main(String[] args) throws LoginException, IOException {
     	
-    	token = new String(Files.readAllBytes(Paths.get("src/main/java/TOKEN.txt")));
+    	token = new String(Files.readAllBytes(Paths.get(".secret/TOKEN.txt")));
     	
         JDABuilder.createDefault(
         			token,
