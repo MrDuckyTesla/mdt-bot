@@ -63,29 +63,28 @@ public class SlashCommands extends ListenerAdapter {
 	
 	private void imageHelper(SlashCommandInteractionEvent event) {
 		String cmd = event.getSubcommandName();
-		int x = event.getOption("x").getAsInt()%101, y = event.getOption("y").getAsInt()%101;
+		int x = event.getOption("x").getAsInt()%100, y = event.getOption("y").getAsInt()%101;
 		int[] rgba = new int[4]; String[] rgbaS = new String[] {"r", "g", "b", "a"};
 		
-		for (int i = 0; i < 4; i++) {rgba[i] = event.getOption(rgbaS[i], 0, opt -> opt.getAsInt())%256;}
+		for (int i = 0; i < 4; i++) {rgba[i] = event.getOption(rgbaS[i], 255, opt -> opt.getAsInt())%256;}
 
 		switch (cmd) {
 		
 			case "pixel":
 				BufferedImage img;
-			try {img = ImageIO.read(new File("input.png"));} 
-			catch (IOException e) {img = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);}
-			
-			Graphics2D gph = img.createGraphics();
-			gph.setColor(new Color(rgba[0], rgba[1], rgba[2], rgba[3]));
-			gph.fillRect(x*10, y*10, 10, 10);
-			try {
-				ByteArrayOutputStream b = new ByteArrayOutputStream();
-				ImageIO.write(img, "png", b);
-				 event.replyFiles(FileUpload.fromData(b.toByteArray(), "image.png")).queue();
-			} 
-			catch (IOException e) {e.printStackTrace();}
+				try {img = ImageIO.read(new File("input.png"));} 
+				catch (IOException e) {img = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);}
 				
-//				event.reply().queue();
+				Graphics2D gph = img.createGraphics();
+				gph.setColor(new Color(rgba[0], rgba[1], rgba[2], rgba[3]));
+				gph.fillRect(x*10, y*10, 10, 10);
+				try {
+					ByteArrayOutputStream b = new ByteArrayOutputStream();
+					ImageIO.write(img, "png", new File("input.png"));
+					ImageIO.write(img, "png", b);
+					event.replyFiles(FileUpload.fromData(b.toByteArray(), "image.png")).queue();
+				} 
+				catch (IOException e) {e.printStackTrace();}
 				break;
 		}
 	}
