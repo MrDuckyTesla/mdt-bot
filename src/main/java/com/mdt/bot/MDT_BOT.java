@@ -30,23 +30,33 @@ public class MDT_BOT {
         bot.awaitReady();
         
         bot.updateCommands().addCommands(
-        Commands.slash("ping", "Replies with pong"),
-        		
-        Commands.slash("math", "math related commands")
-        	.addSubcommands(
-        		new SubcommandData("add", "Adds two numbers together")
-        			.addOption(OptionType.NUMBER, "a", "first number", true)
-        			.addOption(OptionType.NUMBER, "b", "second number", true),
-        		new SubcommandData("subtract", "Subtracts the frist number from the second")
-	    			.addOption(OptionType.NUMBER, "a", "first number", true)
-	    			.addOption(OptionType.NUMBER, "b", "second number", true),
-	    		new SubcommandData("multiply", "Multiplies two numbers together")
-        			.addOption(OptionType.NUMBER, "a", "first number", true)
-        			.addOption(OptionType.NUMBER, "b", "second number", true),
-        		new SubcommandData("divide", "Divides the frist number by the second")
-        			.addOption(OptionType.NUMBER, "a", "first number", true)
-        			.addOption(OptionType.NUMBER, "b", "second number", true)
-        	)
+	        Commands.slash("ping", "Replies with pong"),
+	        		
+	        Commands.slash("math", "math related commands")
+	        	.addSubcommands(
+	        		new SubcommandData("add", "Adds two numbers together")
+	        			.addOption(OptionType.NUMBER, "a", "first number", true)
+	        			.addOption(OptionType.NUMBER, "b", "second number", true),
+	        		new SubcommandData("subtract", "Subtracts the frist number from the second")
+		    			.addOption(OptionType.NUMBER, "a", "first number", true)
+		    			.addOption(OptionType.NUMBER, "b", "second number", true),
+		    		new SubcommandData("multiply", "Multiplies two numbers together")
+	        			.addOption(OptionType.NUMBER, "a", "first number", true)
+	        			.addOption(OptionType.NUMBER, "b", "second number", true),
+	        		new SubcommandData("divide", "Divides the frist number by the second")
+	        			.addOption(OptionType.NUMBER, "a", "first number", true)
+	        			.addOption(OptionType.NUMBER, "b", "second number", true)
+	        	),
+	        Commands.slash("image", "image related commands")
+	        	.addSubcommands(
+	        		new SubcommandData("pixel", "adds a pixel to image")
+	        			.addOption(OptionType.INTEGER, "x", "x coord", true)
+	        			.addOption(OptionType.INTEGER, "y", "y coord", true)
+	        			.addOption(OptionType.INTEGER, "r", "red value", false)
+	        			.addOption(OptionType.INTEGER, "g", "green value", false)
+	        			.addOption(OptionType.INTEGER, "b", "blue value", false)
+	        			.addOption(OptionType.INTEGER, "a", "alpha value", false)
+	        	)
         ).queue();
         
     }
