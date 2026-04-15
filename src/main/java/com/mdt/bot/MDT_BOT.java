@@ -56,7 +56,12 @@ public class MDT_BOT {
 	        			.addOption(OptionType.INTEGER, "g", "green value", false)
 	        			.addOption(OptionType.INTEGER, "b", "blue value", false)
 	        			.addOption(OptionType.INTEGER, "a", "alpha value", false)
-	        	)
+	        	),
+	        	Commands.slash("social", "text related commands")
+	        		.addSubcommands(
+	        			new SubcommandData("say", "sends a message on the bots behalf")
+	        				.addOption(OptionType.STRING, "text", "message for the bot to send", true)
+	        		)
         ).queue();
         
     }

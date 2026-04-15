@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
 
 public class SlashCommands extends ListenerAdapter {
@@ -33,6 +32,10 @@ public class SlashCommands extends ListenerAdapter {
 				
 			case "image":
 				imageHelper(event);
+				break;
+			
+			case "social":
+				socialHelper(event);
 				break;
 		}
 	}
@@ -85,6 +88,19 @@ public class SlashCommands extends ListenerAdapter {
 					event.replyFiles(FileUpload.fromData(b.toByteArray(), "image.png")).queue();
 				} 
 				catch (IOException e) {e.printStackTrace();}
+				break;
+		}
+	}
+	
+	private void socialHelper(SlashCommandInteractionEvent event) {
+		String cmd = event.getSubcommandName();
+
+		switch (cmd) {
+		
+			case "say":
+//				event.deferReply().queue();
+				event.getChannel().sendMessage(event.getOption("text").getAsString()).queue();
+				event.reply("Successfully sent message").setEphemeral(true).queue();
 				break;
 		}
 	}
