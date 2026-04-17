@@ -7,12 +7,10 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
-public class MDT_BOT {
+public final class MDT_BOT {
 	
 	private static String token;
 	
@@ -48,7 +46,7 @@ public class MDT_BOT {
 	        			.addOption(OptionType.NUMBER, "b", "second number", true),
 	        		new SubcommandData("random", "Generates a random number between first and second number")
 	        			.addOption(OptionType.NUMBER, "a", "first number", true)
-	        			.addOption(OptionType.NUMBER, "b", "second number", true)
+	        			.addOption(OptionType.NUMBER, "b", "second number", false)
 	        	),
 	        Commands.slash("image", "image related commands")
 	        	.addSubcommands(

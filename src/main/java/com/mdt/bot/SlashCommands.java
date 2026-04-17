@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 
-public class SlashCommands extends ListenerAdapter {
+public final class SlashCommands extends ListenerAdapter {
 
 	@Override
 	public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -47,28 +47,35 @@ public class SlashCommands extends ListenerAdapter {
 	}
 
 	private void mathHelper(SlashCommandInteractionEvent event) {
-		String cmd = event.getSubcommandName();
-		double a = event.getOption("a").getAsDouble(), b = event.getOption("b").getAsDouble();
+		String cmd = event.getSubcommandName(); double a = event.getOption("a").getAsDouble(), b;
+		try {b = event.getOption("b").getAsDouble();} catch(NullPointerException e) {b = 0;}
 
 		switch (cmd) {
 		
 			case "add":
-				event.reply(a + " + " + b + " = " + (a+b)).queue();
+				event.reply(MathHelper.getValueString('+', a, b)).queue();
 				break;
 				
 			case "subtract":
-				event.reply(a + " - " + b + " = " + (a-b)).queue();
+				event.reply(MathHelper.getValueString('-', a, b)).queue();
 				break;
 				
 			case "multiply":
-				event.reply(a + " * " + b + " = " + (a*b)).queue();
+				event.reply(MathHelper.getValueString('*', a, b)).queue();
 				break;
 				
 			case "divide":
-				event.reply(a + " / " + b + " = " + (a/b)).queue();
+				event.reply(MathHelper.getValueString('/', a, b)).queue();
 				break;
+			
+			case "mod":
+				break;
+				
+			case "pow":
+				break;
+				
 			case "random":
-				event.reply((Math.random()*(Math.max(a, b)-Math.min(a, b))+Math.min(a, b))+"").queue();
+				event.reply(MathHelper.randomString(a, b)).queue();
 				break;
 		}
 	}
