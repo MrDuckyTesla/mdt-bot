@@ -32,6 +32,8 @@ public final class MDT_BOT {
 	        		
 	        Commands.slash("math", "math related commands")
 	        	.addSubcommands(
+	        		new SubcommandData("solve", "solves a given expression")
+	        			.addOption(OptionType.NUMBER, "expression", "what you want solved", true),
 	        		new SubcommandData("add", "Adds two numbers together")
 	        			.addOption(OptionType.NUMBER, "a", "first number", true)
 	        			.addOption(OptionType.NUMBER, "b", "second number", true),

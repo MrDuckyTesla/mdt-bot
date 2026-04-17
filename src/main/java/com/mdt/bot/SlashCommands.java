@@ -1,17 +1,11 @@
 package com.mdt.bot;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.io.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 
 public final class SlashCommands extends ListenerAdapter {
