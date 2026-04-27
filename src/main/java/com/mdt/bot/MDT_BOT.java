@@ -33,19 +33,7 @@ public final class MDT_BOT {
 	        Commands.slash("math", "math related commands")
 	        	.addSubcommands(
 	        		new SubcommandData("solve", "solves a given expression")
-	        			.addOption(OptionType.NUMBER, "expression", "what you want solved", true),
-	        		new SubcommandData("add", "Adds two numbers together")
-	        			.addOption(OptionType.NUMBER, "a", "first number", true)
-	        			.addOption(OptionType.NUMBER, "b", "second number", true),
-	        		new SubcommandData("subtract", "Subtracts the frist number from the second")
-		    			.addOption(OptionType.NUMBER, "a", "first number", true)
-		    			.addOption(OptionType.NUMBER, "b", "second number", true),
-		    		new SubcommandData("multiply", "Multiplies two numbers together")
-	        			.addOption(OptionType.NUMBER, "a", "first number", true)
-	        			.addOption(OptionType.NUMBER, "b", "second number", true),
-	        		new SubcommandData("divide", "Divides the frist number by the second")
-	        			.addOption(OptionType.NUMBER, "a", "first number", true)
-	        			.addOption(OptionType.NUMBER, "b", "second number", true),
+	        			.addOption(OptionType.STRING, "e", "Expression that you want solved", true),
 	        		new SubcommandData("random", "Generates a random number between first and second number")
 	        			.addOption(OptionType.NUMBER, "a", "first number", true)
 	        			.addOption(OptionType.NUMBER, "b", "second number", false)

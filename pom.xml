@@ -4,10 +4,18 @@
   <artifactId>discord-bot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 <dependencies>
+
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>5.0.0-beta.20</version>
         </dependency>
+        
+        <dependency>
+        	<groupId>net.objecthunter</groupId>
+		    <artifactId>exp4j</artifactId>
+		    <version>0.4.8</version>
+        </dependency>
+        
     </dependencies>
 </project>

@@ -2,7 +2,10 @@ package com.mdt.bot;
 
 import java.util.Stack;
 
+
 public final class MathHelper {
+	
+	
 
 	public static Number solve(String expression) {
 		Stack<Character> oprs = new Stack<>();
@@ -36,13 +39,12 @@ public final class MathHelper {
 //					} oprs.pop();
 				}
 			}
-			
 		}
 		
 		System.out.println(oprs);
 		System.out.println(nums);
 		
-		return new Integer(0);
+		return getNum(nums.pop());
 	}
 	
 	public static Number getValue(char op, Number n1, Number n2) {
@@ -138,7 +140,7 @@ public final class MathHelper {
 	private static Number expHelper(Number a, Number b) {
 		double value = a.doubleValue();
 		if (getNumberConversion(b).getClass() == Integer.class) {
-			for (int i = 0; i < b.intValue(); i++) {value *= a.doubleValue();}
+			for (int i = 1; i < b.intValue(); i++) {value *= a.doubleValue();}
 			return getNumberConversion(value);
 		} return Math.pow(a.doubleValue(), b.doubleValue());
 		

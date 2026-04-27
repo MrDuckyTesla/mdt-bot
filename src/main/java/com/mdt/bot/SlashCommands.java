@@ -4,6 +4,9 @@ import java.io.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+
+import net.objecthunter.exp4j.*;
+import net.objecthunter.exp4j.function.Function;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.FileUpload;
@@ -41,34 +44,18 @@ public final class SlashCommands extends ListenerAdapter {
 	}
 
 	private void mathHelper(SlashCommandInteractionEvent event) {
-		String cmd = event.getSubcommandName(); double a = event.getOption("a").getAsDouble(), b;
-		try {b = event.getOption("b").getAsDouble();} catch(NullPointerException e) {b = 0;}
-
-		switch (cmd) {
+		String cmd = event.getSubcommandName();
 		
-			case "add":
-				event.reply(MathHelper.getValueString('+', a, b)).queue();
-				break;
-				
-			case "subtract":
-				event.reply(MathHelper.getValueString('-', a, b)).queue();
-				break;
-				
-			case "multiply":
-				event.reply(MathHelper.getValueString('*', a, b)).queue();
-				break;
-				
-			case "divide":
-				event.reply(MathHelper.getValueString('/', a, b)).queue();
-				break;
-			
-			case "mod":
-				break;
-				
-			case "pow":
+		switch (cmd) {
+			case "solve":
+				String e = event.getOption("e").getAsString();
+				try {event.reply("\"`" + e + "`\" is equal to `" + new ExpressionBuilder(e).build().evaluate() + "`").queue();} 
+				catch (Exception E) {event.reply("Faulty expression, please try again.").queue();}
 				break;
 				
 			case "random":
+				double a = event.getOption("a").getAsDouble(), b;
+				try {b = event.getOption("b").getAsDouble();} catch(NullPointerException E) {b = 0;}
 				event.reply(MathHelper.randomString(a, b)).queue();
 				break;
 		}
