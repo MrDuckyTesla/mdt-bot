@@ -39,6 +39,10 @@ public final class SlashCommands extends ListenerAdapter {
 				gambleHelper(event);
 				break;
 				
+			case "minecraft":
+				minecraftHelper(event);
+				break;
+				
 		}
 	}
 
@@ -119,6 +123,93 @@ public final class SlashCommands extends ListenerAdapter {
 				break;
 			
 			case "roulette":
+				break;
+		}
+	}
+	
+	private void minecraftHelper(SlashCommandInteractionEvent event) {
+		String cmd = event.getSubcommandName();
+
+		switch (cmd) {
+		
+			case "start":
+				if (!MinecraftHelper.isRunning()) {
+					try {
+						MinecraftHelper.openPort();
+						MinecraftHelper.start();
+						event.reply("Server successfully started, please wait ~10 seconds.").queue();
+					} 
+					catch (IOException e) {
+						e.printStackTrace();
+						event.reply("Could not start server, please try again.").queue();
+					} 
+				}
+				else {event.reply("Server is already running.").queue();}
+				break;
+			
+			case "players":
+				if (MinecraftHelper.isRunning()) {
+					event.reply("There are currently " + MinecraftHelper.getPlayersNum() + " players: \n"+MinecraftHelper.getPlayersStr()).queue();
+				}
+				else {event.reply("Server is not running.").queue();}
+				break;
+				
+			case "tps":
+				if (MinecraftHelper.isRunning()) {
+					event.reply("The server TPS is currently:  " + MinecraftHelper.getTPS()).queue();
+				}
+				else {event.reply("Server is not running.").queue();}
+				break;
+				
+			case "status":
+				if (MinecraftHelper.isRunning()) {
+					event.reply("The server is currently running.").queue();
+				}
+				else {event.reply("the server is not currently running.").queue();}
+				break;
+				
+			case "log":
+				if (event.getUser().getIdLong() == 877980359986384936L) {
+					try {
+						String logs = MinecraftHelper.getLog();
+						if (logs.length() > 1900) {logs = logs.substring(logs.length() - 1900);}
+						event.reply(logs).queue();
+					} 
+					catch (IOException e) {
+						event.reply("Failed to get logs.");
+						e.printStackTrace();
+					}
+				}
+				else {event.reply("User is not operator.").queue();}
+				break;
+			
+			case "stop":
+				if (event.getUser().getIdLong() == 877980359986384936L) {
+					if (MinecraftHelper.isRunning()) {
+						try {
+							MinecraftHelper.stop();
+							MinecraftHelper.closePort();
+							event.reply("Server successfully stopped.").queue();
+						} 
+						catch (IOException e) {
+							e.printStackTrace();
+							event.reply("Could not stop server, please try again.").queue();
+						} 
+					}
+					else {
+						event.reply("Server is not running.").queue();
+					}
+				}
+				else {event.reply("User is not operator.").queue();}
+				break;
+				
+			case "backup":
+				break;
+				
+			case "restart":
+				break;
+				
+			case "rollback":
 				break;
 		}
 	}

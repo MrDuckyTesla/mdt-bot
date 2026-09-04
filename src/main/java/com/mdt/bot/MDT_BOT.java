@@ -5,14 +5,20 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public final class MDT_BOT {
 	
 	private static String token;
+	private static ScheduledExecutorService scheduler =
+		    Executors.newScheduledThreadPool(1);
 	
     public static void main(String[] args) throws LoginException, IOException, InterruptedException {
     	
@@ -76,8 +82,40 @@ public final class MDT_BOT {
 		        			.addOption(OptionType.STRING, "call", "where you think the ball will land", true)
 		        			.addOption(OptionType.STRING, "secondary", "where you dont think the ball will land", false)
 		        			.addOption(OptionType.STRING, "special", "name of the special 2% win slot", false)
-		        	)
+		        ),
+	        Commands.slash("minecraft", "minecraft server related commands")
+	        	.addSubcommands(
+	        		new SubcommandData("start", "starts the minecraft server"),
+	        		new SubcommandData("players", "relays how many players are online"),
+	        		new SubcommandData("tps", "relayes the current tps of the server"),
+	        		new SubcommandData("status", "check if the server is running")
+	        	)
+	        	.addSubcommandGroups(
+	        		new SubcommandGroupData("admin", "Operator only commands")
+	        			.addSubcommands(
+	        				new SubcommandData("log", "Operator command"),
+	    	        		new SubcommandData("stop", "Operator command")
+//	    	        		new SubcommandData("backup", "Operator command"),
+//	    	        		new SubcommandData("restart", "Operator command"),
+//	    	        		new SubcommandData("rollback", "Operator command")
+	        			)
+	        	)
+		        
         ).queue();
+        
+        scheduler.scheduleAtFixedRate(() -> {
+            if (MinecraftHelper.isRunning()) {
+                if (MinecraftHelper.getPlayersNum() == 0) {
+                    try {
+                    	MinecraftHelper.stop();
+						MinecraftHelper.closePort();
+					} 
+                    catch (IOException e) {
+						System.out.println("Server couldnt stop.");
+					}
+                }
+            }
+        }, 0, 30, TimeUnit.MINUTES);
         
     }
 }
